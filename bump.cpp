@@ -2,8 +2,7 @@
 #include <cstring>
 
 int main() {
-    BumpAllocator<int> allocator(1000);
-    BumpAllocator<float> f_allocator(1000);
+    BumpUpAllocator<int> allocator(1000);
 
     //check the starting address for sanity
     std::cout << "Starting address of the heap: " << static_cast<void*>(allocator.getHeapStartAddress()) << std::endl;
@@ -22,15 +21,8 @@ int main() {
         
         std::cout << std::endl;
     }
-    
-
-    float* floatArray = f_allocator.alloc(300);
-
 
     allocator.dealloc(intArray);
-    f_allocator.dealloc(floatArray);
-
-
-
+    
     return 0;
 }

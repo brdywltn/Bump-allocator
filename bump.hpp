@@ -2,9 +2,10 @@
 #include <iostream>
 
 template <typename T>
-class BumpAllocator {
+class BumpUpAllocator {
 // An implementation of a BumpAllocator in C++
-//
+// which bumps the allocated memory spaces
+// up through the heap
 //
 //
 //
@@ -16,7 +17,7 @@ private:
 
 public:
     //Constructor
-    BumpAllocator(size_t initialSize){
+    BumpUpAllocator(size_t initialSize){
         heap = new char[initialSize];
         bumpPointer = heap;
         allocationCounter = 0;
@@ -24,7 +25,7 @@ public:
     }
 
     //Destructor
-    ~BumpAllocator(){
+    ~BumpUpAllocator(){
         delete[] heap;
     }
     
