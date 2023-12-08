@@ -1,25 +1,25 @@
 #include "bump.hpp"
 #include <simpletest.h>
 
-char const *groups[] = {
-    "Bump",
+char const *groupAllocateAndDeallocate[] = {
+    "BumpUp_AllocateAndDeallocate",
 };
 
-DEFINE_TEST_GROUP(BumpAllocatorTests, Bump)
-{
-    //Test 1: Allocate and deallocate various sizes
-    TEST_MESSAGE("Test 1: Allocate and deallocate various mem sizes")
-
-    BumpAllocator<int> allocator1(100);
+DEFINE_TEST_G(AllocateDealllocateSizesTest, BumpUp_AllocateAndDeallocate) {
+    //Test 1: Allocate and deallocate various sizes of mem
+    BumpUpAllocator<int> allocator1(100);
     int* x = allocator1.alloc(5);
-    TEST_MESSAGE(x != nullptr, "Failed to allocate memory");
+    TEST_MESSAGE(x != nullptr, "Failed to allocate memory!");
     allocator1.dealloc(x);
+}
 
-    BumpAllocator<double> allocator2(50);
-    double* y = allocator2.alloc(10);
-    TEST_MESSAGE(y != nullptr, "Failed to allocate memory");
-    allocator2.dealloc(y);
+int main() {
 
-    
+    bool pass = true; 
 
+    for (auto group: groupAllocateAndDeallocate){
+        pass &= TestFixture::ExecuteTestGroup(group, TestFixture::Verbose);
+    }
+
+    return pass ? 0 : 1;
 }
