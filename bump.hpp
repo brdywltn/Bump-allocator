@@ -6,9 +6,7 @@ class BumpUpAllocator {
 // An implementation of a BumpAllocator in C++
 // which bumps the allocated memory spaces
 // up through the heap
-//
-//
-//
+
 private:
     char*   heap;
     char*   bumpPointer;
@@ -17,6 +15,7 @@ private:
 
 public:
     //Constructor
+    //Creates space for the heap and initialises the private/public variables
     BumpUpAllocator(size_t initialSize){
         heap = new char[initialSize];
         bumpPointer = heap;
@@ -66,4 +65,26 @@ public:
     char* getCurrentPointerAddress() const {
         return bumpPointer;
     }
+};
+
+
+//Bump down
+template <typename T>
+class BumpDownAllocator {
+private:
+    char* heap;
+    char* bumpPointer;
+    size_t allocationCounter;
+    size_t totalSize;
+
+public:
+    //constructor
+    BumpDownAllocator(size_t initialSize) {}
+        //bumpPointer needs to start at the end of the heap
+    //destructor
+    ~BumpDownAllocator() {}
+    //allocate
+    T* alloc(size_t count) {}
+    //deallocate
+    void dealloc(T* allocation){}
 };
