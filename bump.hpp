@@ -8,10 +8,10 @@ class BumpUpAllocator {
 // up through the heap
 
 private:
-    char*   heap;
-    char*   bumpPointer;
-    size_t  allocationCounter;
-    size_t  totalSize;
+    char*   heap; //start address
+    char*   bumpPointer; //current address
+    size_t  allocationCounter; // counter for allocations
+    size_t  totalSize; //total size of allocated space
 
 public:
     //Constructor
@@ -72,19 +72,47 @@ public:
 template <typename T>
 class BumpDownAllocator {
 private:
-    char* heap;
-    char* bumpPointer;
-    size_t allocationCounter;
-    size_t totalSize;
+    char* heap; //start address of the heap
+    char* bumpPointer; //current position
+    size_t allocationCounter; //counter for allocations
+    size_t totalSize; //total size of allocated space
 
 public:
     //constructor
-    BumpDownAllocator(size_t initialSize) {}
-        //bumpPointer needs to start at the end of the heap
+    BumpDownAllocator(size_t initialSize) {
+        heap = new char[initialSize];
+        bumpPointer = heap + initialSize; //bumpPointer needs to start at the end of the heap
+        allocationCounter = 0;
+        totalSize = initialSize;
+    }
+        
     //destructor
-    ~BumpDownAllocator() {}
+    ~BumpDownAllocator() {
+        delete[] heap;
+    }
     //allocate
-    T* alloc(size_t count) {}
+    T* alloc(size_t count) {
+        //bumpPointer less amount of assigned mem must be greater than or same as heap, then go down
+        if (bumpPointer - count * sizeof(T) >= heap){
+            bumpPointer -= count * sizeof(T);
+            T* allocation = reinterpret_cast<T*>(bumpPointer);
+            allocationCounter++;
+            return allocation;
+        }
+        // otherwise, no mem, fail
+        else {
+            std::cout << "Allocation failed. Not enough memory." << std::endl;
+            return nullptr;
+        }
+    }
+
     //deallocate
-    void dealloc(T* allocation){}
+    void dealloc(T* allocation){
+        if (allocationCounter > 0) {
+            allocationCounter--;
+            if (allocationCounter == 0) {
+                bumpPointer = heap + totalSize; //reset when allocations are freed
+            }
+        }
+    }
 };
