@@ -115,4 +115,14 @@ public:
             }
         }
     }
+
+    //Return the heap, for sanity checking movement of mem
+    char* getHeapStartAddress() const {
+        return heap;
+    }
+
+    //Return the current pointer address, for sanity checking movement of mem
+    char* getCurrentPointerAddress() const {
+        return bumpPointer;
+    }
 };
